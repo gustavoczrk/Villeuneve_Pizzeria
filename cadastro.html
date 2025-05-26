@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cadastro - Villeuneve Pizzeria</title>
+  <link rel="stylesheet" href="/css/login.css" />
+</head>
+<body>
+
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html#home">Home</a></li>
+        <li><a href="index.html#menu">Cardápio</a></li>
+        <li><a href="index.html#about">Sobre Nós</a></li>
+        <li><a href="index.html#contact">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Crie sua conta</h1>
+    <p>Faça parte da nossa comunidade de amantes de pizza 🍕</p>
+  </section>
+
+  <section class="background-container">
+    <div class="form-box">
+      <h2>Cadastro</h2>
+      <form action="/cadastro" method="post">
+        <input type="text" name="nome" placeholder="Nome completo" required>
+        <input type="text" name="usuario" placeholder="Usuário" required>
+        <input type="email" name="email" placeholder="E-mail" required>
+        <input type="password" name="senha" placeholder="Senha" required>
+        <input type="password" name="confirmar" placeholder="Confirmar senha" required>
+        <button type="submit" class="button full-width">Cadastrar</button>
+      </form>
+      <p>Já tem uma conta? <a href="login.html">Faça login</a></p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Villeuneve Pizzeria</p>
+  </footer>
+
+  <script src="js/cadastro.js"></script>
+
+</body>
+</html>
