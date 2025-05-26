@@ -29,3 +29,52 @@ Desenvolver um site funcional para os clientes da pizzaria, com foco em usabilid
 ### Outros
 - Trello (organização e backlog)
 
+🚀 Como rodar o projeto localmente
+Clone o repositório:
+
+bash
+Copiar
+Editar
+git clone https://github.com/gustavoczrk/Villeuneve_Pizzeria.git
+Acesse a pasta do projeto:
+
+bash
+Copiar
+Editar
+cd Villeuneve_Pizzeria
+Instale as dependências:
+
+nginx
+Copiar
+Editar
+npm install
+Inicie o servidor:
+
+bash
+Copiar
+Editar
+node js/server.js
+Acesse no navegador:
+
+arduino
+Copiar
+Editar
+http://localhost:3000
+⚠️ Importante:
+Certifique-se de que o MySQL Server está rodando e que o banco de dados villeuneve já foi criado com a seguinte estrutura:
+
+sql
+Copiar
+Editar
+CREATE DATABASE villeuneve;
+
+USE villeuneve;
+
+CREATE TABLE usuarios (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(100),
+  usuario VARCHAR(50) UNIQUE,
+  email VARCHAR(100),
+  senha VARCHAR(255),
+  tipo ENUM('admin', 'user') DEFAULT 'user'
+);
