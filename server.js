@@ -3,6 +3,8 @@ const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const path = require('path');
+const session = require('express-session');
+
 
 const app = express();
 const PORT = 3000;
@@ -11,11 +13,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+  secret: 'segredo_super_secreto',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // usar true apenas com HTTPS
+}));
+
+
 // Conexão com MySQL
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'SUA_SENHA_AQUI',
+  password: 'Coxinha123*',
   database: 'villeuneve'
 });
 
@@ -23,6 +33,26 @@ db.connect(err => {
   if (err) throw err;
   console.log('Conectado ao banco de dados MySQL!');
 });
+
+function verificaAdmin(req, res, next) {
+  if (req.session.usuario && req.session.usuario.tipo === 'admin') {
+    return next();
+  }
+  return res.status(403).send('Acesso negado.');
+}
+
+//criando rota protegida
+app.get('/painel-admin', verificaAdmin, (req, res) => {
+  res.send(`<h1>Bem-vindo, ${req.session.usuario.nome}</h1><p>Você está no painel de administração.</p>`);
+});
+
+//ROTA DE LOGOUT
+app.get('/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.redirect('/login.html');
+  });
+});
+
 
 // ================== ROTA DE CADASTRO ==================
 app.post('/cadastro', async (req, res) => {
@@ -54,26 +84,28 @@ app.post('/login', (req, res) => {
   const sql = 'SELECT * FROM usuarios WHERE usuario = ?';
   db.query(sql, [usuario], async (err, results) => {
     if (err) return res.status(500).send('Erro no servidor.');
-
-    if (results.length === 0) {
-      return res.status(401).send('Usuário não encontrado.');
-    }
+    if (results.length === 0) return res.status(401).send('Usuário não encontrado.');
 
     const user = results[0];
     const senhaCorreta = await bcrypt.compare(senha, user.senha);
 
-    if (!senhaCorreta) {
-      return res.status(401).send('Senha incorreta.');
-    }
+    if (!senhaCorreta) return res.status(401).send('Senha incorreta.');
 
-    // Verificação de tipo
+    // Armazena os dados do usuário na sessão
+    req.session.usuario = {
+      id: user.id,
+      nome: user.nome,
+      tipo: user.tipo
+    };
+
     if (user.tipo === 'admin') {
-      res.send('Bem-vindo, administrador!');
+      return res.redirect('/admin.html');
     } else {
-      res.send('Login realizado com sucesso.');
+      return res.redirect('/index.html');
     }
   });
 });
+
 
 // ================== INICIAR SERVIDOR ==================
 app.listen(PORT, () => {
