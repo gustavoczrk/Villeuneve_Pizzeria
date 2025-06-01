@@ -9,6 +9,6 @@ if (loginForm) {
       e.preventDefault();
     }
 
-    // Aqui você poderá fazer a requisição para o backend futuramente
+    
   });
 }

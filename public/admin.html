@@ -22,24 +22,52 @@
     </nav>
   </header>
 
-  <main>
-    <h1>Painel do Administrador</h1>
-    <p>Gerencie pedidos e produtos da pizzaria aqui.</p>
+  <div class="background-container">
+    <div class="admin-container">
+      <section class="admin-hero">
+        <h1>Painel do Administrador</h1>
+      </section>
 
-    <section class="admin-section">
-      <h2>Pedidos Recebidos</h2>
-      <p>Em breve: listagem de pedidos com botão de alterar status.</p>
-    </section>
+      <!--PEDIDOS-->
+      <section class="admin-section">
+        <h2>Pedidos Recebidos</h2>
+        <p>Em breve: listagem de pedidos com botão de alterar status.</p>
+      </section>
 
-    <section class="admin-section">
-      <h2>Gerenciar Cardápio</h2>
-      <p>Em breve: adicionar, editar e excluir pizzas do menu.</p>
-    </section>
-  </main>
+      <!--cadastro de produtos-->
+      <section class="admin-section">
+        <h2>Gerenciar Cardápio</h2>
+        <form id="form-produto" enctype="multipart/form-data" method="post">
+          <input type="text" name="nome" placeholder="Nome da pizza" required>
+          <input type="text" name="descricao" placeholder="Descrição da pizza" required>
+          <input type="text" name="preco" placeholder="Preço (ex: 29.90)" required>
+          <input type="file" name="imagem" accept="image/*">
+          <button type="submit">Adicionar Pizza</button>
+        </form>
+      </section>
+
+      <!--LISTAGEM DOS PRODUTOS-->
+      <section class="admin-section">
+        <h2>Pizzas Cadastradas</h2>
+        <div id="lista-produtos">
+          <p>Carregando pizzas...</p>
+        </div>
+      </section>
+      <!--contatos-->
+      <section class="admin-section">
+  <h2>Feedback dos clientes</h2>
+  <div id="lista-contatos">
+    <p>Carregando mensagens...</p>
+  </div>
+</section>
+
+    </div>
+  </div>
 
   <footer>
     <p>&copy; 2025 Villeuneve Pizzeria - Painel Administrativo</p>
   </footer>
 
+  <script src="js/admin.js"></script>
 </body>
 </html>
