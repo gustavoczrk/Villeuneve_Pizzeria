@@ -14,7 +14,7 @@
             <ul>
                 <li><a href="#home">Home</a></li>
 
-                <li><a href="cardapio.html" target="_blank">Cardápio</a></li>
+                <li><a href="#" id="link-cardapio-navbar" target="_blank">Cardápio</a></li>
 
                 <li><a href="#about">Sobre Nós</a></li>
 
@@ -112,7 +112,8 @@
             </ul>
         </div>
 
-        <a href="cardapio.html" class="order-button">Gostou? Faça já seu Pedido!</a>
+        <a href="#" id="btn-cardapio" class="order-button">Gostou? Faça já seu Pedido!</a>
+
 
     </section>
 
@@ -161,65 +162,7 @@
         <p>&copy; 2025 Villeuneve Pizzeria</p>
       </footer>
 
-<script>
-fetch('/usuario')
-  .then(res => res.json())
-  .then(usuario => {
-    const authDiv = document.querySelector('.auth-buttons');
-    const boasVindas = document.getElementById('boas-vindas');
-
-    if (usuario) {
-      boasVindas.innerHTML = `Bem-vindo, ${usuario.nome}`;
-      let html = '';
-      if (usuario.tipo === 'admin') {
-        html += `<a href="/admin.html" class="login-button">Painel Admin</a>`;
-      }
-      html += `<a href="/logout" class="login-button">Sair</a>`;
-      authDiv.innerHTML = html;
-    } else {
-      boasVindas.innerHTML = '';
-      authDiv.innerHTML = `
-        <a href="cadastro.html" class="login-button">Cadastro</a>
-        <a href="login.html" class="login-button">Login</a>
-      `;
-    }
-  });
-</script>
-
-
-  
-<script>
-document.getElementById("form-contato")?.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const form = e.target;
-  const nome = form.nome.value.trim();
-  const email = form.email.value.trim();
-  const mensagem = form.mensagem.value.trim();
-  const feedback = document.getElementById("mensagem-contato");
-
-  if (!nome || !email || !mensagem) {
-    feedback.innerText = "Preencha todos os campos.";
-    return;
-  }
-
-  try {
-    const res = await fetch("/contato", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nome, email, mensagem })
-    });
-
-    const texto = await res.text();
-    feedback.innerText = texto;
-    form.reset();
-  } catch (err) {
-    console.error(err);
-    feedback.innerText = "Erro ao enviar mensagem.";
-  }
-});
-</script>
-
+<script src="js/index.js"></script>
 
 
 </body>

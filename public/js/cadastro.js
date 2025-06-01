@@ -40,7 +40,7 @@ if (cadastroForm) {
       if (resposta.status === 200) {
         alert("Cadastro realizado com sucesso!");
         setTimeout(() => {
-          window.location.href = "login.html";
+          window.location.href = "index.html";
         }, 800); // atraso de 800ms
 
       } else {
