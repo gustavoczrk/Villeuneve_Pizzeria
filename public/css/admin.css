@@ -119,3 +119,52 @@
   margin-bottom: 1rem;
   box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
+
+@media screen and (max-width: 768px) {
+  .admin-container {
+    padding: 1rem;
+    width: 100%;
+  }
+
+  .admin-section {
+    padding: 1rem;
+  }
+
+  form input,
+  form button,
+  form textarea {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .produto-item,
+  .contato-item {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    margin-bottom: 1.5rem;
+  }
+
+  .produto-item img {
+    width: 100%;
+    height: auto;
+    margin: 1rem 0;
+  }
+
+  .btn-excluir {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .form-box {
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .admin-hero h1 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+}
