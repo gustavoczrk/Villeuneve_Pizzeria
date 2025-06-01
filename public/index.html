@@ -21,6 +21,7 @@
                 <li><a href="#contact">Contato</a></li>
             </ul>
             <div class="auth-buttons">
+              <a href="cadastro.html" class="login-button">Cadastro</a>
               <a href="login.html" class="login-button">Login</a>
         </nav>
     </header>
@@ -177,10 +178,14 @@ fetch('/usuario')
       authDiv.innerHTML = html;
     } else {
       boasVindas.innerHTML = '';
-      authDiv.innerHTML = `<a href="login.html" class="login-button">Login</a>`;
+      authDiv.innerHTML = `
+        <a href="cadastro.html" class="login-button">Cadastro</a>
+        <a href="login.html" class="login-button">Login</a>
+      `;
     }
   });
 </script>
+
 
   
 <script>

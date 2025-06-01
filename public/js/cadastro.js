@@ -1,4 +1,12 @@
+function senhaValida(senha) {
+  // Pelo menos 6 caracteres, com uma letra maiúscula, uma minúscula e um número
+  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+  return regex.test(senha);
+}
+
+const erroSenhaSpan = document.getElementById("erro-senha");
 const cadastroForm = document.querySelector("form[action='/cadastro']");
+
 if (cadastroForm) {
   cadastroForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -13,6 +21,13 @@ if (cadastroForm) {
       return;
     }
 
+ if (!senhaValida(senha)) {
+  erroSenhaSpan.innerText = "A senha deve ter pelo menos 6 caracteres, com letra maiúscula, minúscula e número.";
+  return;
+} else {
+  erroSenhaSpan.innerText = "";
+}
+
     try {
       const resposta = await fetch("/cadastro", {
         method: "POST",
@@ -24,7 +39,10 @@ if (cadastroForm) {
 
       if (resposta.status === 200) {
         alert("Cadastro realizado com sucesso!");
-        window.location.href = "login.html";
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 800); // atraso de 800ms
+
       } else {
         alert("Erro: " + texto);
       }

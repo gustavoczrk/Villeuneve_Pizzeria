@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
 const multer = require('multer');
-
+const rateLimit = require("express-rate-limit");
 
 const app = express();
 const PORT = 3000;
@@ -35,6 +35,19 @@ app.use(session({
   cookie: { secure: false } // usar true apenas com HTTPS
 }));
 
+//limitacao de quantidade de logins
+const limiter = rateLimit({
+  windowMs: 1 * 20 * 1000, // 1 minuto
+  max: 5, // Máximo 5 tentativas por minuto
+  message: "Muitas tentativas. Tente novamente em 1 minuto."
+});
+
+app.use("/login", limiter);
+
+//helmet
+const helmet = require("helmet");
+app.use(helmet());
+
 
 // Conexão com MySQL
 const db = mysql.createConnection({
@@ -61,7 +74,6 @@ app.get('/admin.html', verificaAdmin, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 
-
 //ROTA DE LOGOUT
 app.get('/logout', (req, res) => {
   req.session.destroy(() => {
@@ -78,6 +90,14 @@ app.post('/cadastro', async (req, res) => {
     return res.status(400).send('Todos os campos são obrigatórios.');
   }
 
+  // Validação de senha: pelo menos 6 caracteres, com letra maiúscula, minúscula e número
+  const senhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+  if (!senhaRegex.test(senha)) {
+    return res
+      .status(400)
+      .send('A senha deve conter ao menos 6 caracteres, com letra maiúscula, minúscula e número.');
+  }
+
   const verificarSQL = 'SELECT * FROM usuarios WHERE usuario = ? OR email = ?';
   db.query(verificarSQL, [usuario, email], async (err, results) => {
     if (err) return res.status(500).send('Erro no servidor.');
@@ -88,7 +108,8 @@ app.post('/cadastro', async (req, res) => {
 
     try {
       const senhaHash = await bcrypt.hash(senha, 10);
-      const sql = 'INSERT INTO usuarios (nome, usuario, email, senha, tipo) VALUES (?, ?, ?, ?, ?)';
+      const sql =
+        'INSERT INTO usuarios (nome, usuario, email, senha, tipo) VALUES (?, ?, ?, ?, ?)';
       db.query(sql, [nome, usuario, email, senhaHash, 'user'], (err, result) => {
         if (err) {
           console.error(err);
@@ -101,6 +122,7 @@ app.post('/cadastro', async (req, res) => {
     }
   });
 });
+
 
 
 // ================== ROTA DE LOGIN ==================

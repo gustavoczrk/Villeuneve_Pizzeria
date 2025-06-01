@@ -84,6 +84,14 @@ nav a {
   background-color: #e69500;
 }
 
+.auth-buttons a {
+  margin-left: 0.5rem;
+}
+
+.auth-buttons a:first-child {
+  margin-left: 0;
+}
+
 
 .hero {
     background-image: url(../img/pexels-narda-yescas-1566837.jpg);

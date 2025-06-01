@@ -146,6 +146,14 @@ nav a {
     text-align: center;
     margin-top: auto;
   }
+  
+  .erro-senha {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+  display: block;
+}
+
 
   @media screen and (max-width: 768px) {
   nav {
