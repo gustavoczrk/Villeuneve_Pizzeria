@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Painel Admin - Villeuneve Pizzeria</title>
+  <title>Painel Admin - Villeneuve Pizzeria</title>
   <link rel="stylesheet" href="css/index.css" />
   <link rel="stylesheet" href="css/admin.css" />
 </head>
@@ -23,49 +23,58 @@
   </header>
 
   <div class="background-container">
-    <div class="admin-container">
-      <section class="admin-hero">
-        <h1>Painel do Administrador</h1>
+    <section class="admin-hero">
+      <h1>Painel do Administrador</h1>
+    </section>
+
+    <!-- LINHA 1 -->
+    <div class="grid-boxes" style="margin-bottom: 3rem;">
+
+      <!-- Pedidos -->
+      <section class="admin-section colapsavel">
+        <button class="toggle-btn">Pedidos Recebidos</button>
+        <div class="conteudo-colapsavel" id="lista-pedidos">
+          <p>Carregando pedidos...</p>
+        </div>
       </section>
 
-      <!--PEDIDOS-->
-      <section class="admin-section">
-        <h2>Pedidos Recebidos</h2>
-        <p>Em breve: listagem de pedidos com botão de alterar status.</p>
+      <!-- Cadastro de Produtos -->
+      <section class="admin-section colapsavel">
+        <button class="toggle-btn">Gerenciar Cardápio</button>
+        <div class="conteudo-colapsavel">
+          <form id="form-produto" enctype="multipart/form-data" method="post">
+            <input type="text" name="nome" placeholder="Nome da pizza" required>
+            <input type="text" name="descricao" placeholder="Descrição da pizza" required>
+            <input type="text" name="preco" placeholder="Preço (ex: 29.90)" required>
+            <input type="file" name="imagem" accept="image/*">
+            <button type="submit">Adicionar Pizza</button>
+          </form>
+        </div>
       </section>
+    </div>
 
-      <!--cadastro de produtos-->
-      <section class="admin-section">
-        <h2>Gerenciar Cardápio</h2>
-        <form id="form-produto" enctype="multipart/form-data" method="post">
-          <input type="text" name="nome" placeholder="Nome da pizza" required>
-          <input type="text" name="descricao" placeholder="Descrição da pizza" required>
-          <input type="text" name="preco" placeholder="Preço (ex: 29.90)" required>
-          <input type="file" name="imagem" accept="image/*">
-          <button type="submit">Adicionar Pizza</button>
-        </form>
-      </section>
-
-      <!--LISTAGEM DOS PRODUTOS-->
-      <section class="admin-section">
-        <h2>Pizzas Cadastradas</h2>
-        <div id="lista-produtos">
+    <!-- LINHA 2 -->
+    <div class="grid-boxes">
+      <!-- Lista de Produtos -->
+      <section class="admin-section colapsavel">
+        <button class="toggle-btn">Pizzas Cadastradas</button>
+        <div class="conteudo-colapsavel" id="lista-produtos">
           <p>Carregando pizzas...</p>
         </div>
       </section>
-      <!--contatos-->
-      <section class="admin-section">
-  <h2>Feedback dos clientes</h2>
-  <div id="lista-contatos">
-    <p>Carregando mensagens...</p>
-  </div>
-</section>
 
+      <!-- Feedback dos Clientes -->
+      <section class="admin-section colapsavel">
+        <button class="toggle-btn">Feedback dos Clientes</button>
+        <div class="conteudo-colapsavel" id="lista-contatos">
+          <p>Carregando mensagens...</p>
+        </div>
+      </section>
     </div>
   </div>
 
   <footer>
-    <p>&copy; 2025 Villeuneve Pizzeria - Painel Administrativo</p>
+    <p>&copy; 2025 Villeneuve Pizzeria - Painel Administrativo</p>
   </footer>
 
   <script src="js/admin.js"></script>

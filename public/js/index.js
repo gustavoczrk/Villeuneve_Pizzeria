@@ -6,21 +6,45 @@ function carregarUsuario() {
       const boasVindas = document.getElementById('boas-vindas');
 
       if (usuario) {
-        boasVindas.innerHTML = `Bem-vindo, ${usuario.nome}`;
+        // Salva no localStorage para reutilização em outras páginas
+        localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+
+        if (boasVindas) {
+          boasVindas.innerHTML = `Bem-vindo, ${usuario.nome}`;
+        }
+
         let html = '';
+
         if (usuario.tipo === 'admin') {
           html += `<a href="/admin.html" class="login-button">Painel Admin</a>`;
+        } else {
+          html += `<a href="perfil.html" class="login-button">Perfil</a>`;
         }
-        html += `<a href="/logout" class="login-button">Sair</a>`;
+
+        html += `<a href="#" onclick="logout()" class="login-button">Sair</a>`;
         authDiv.innerHTML = html;
       } else {
-        boasVindas.innerHTML = '';
+        // Se não estiver logado
+        localStorage.removeItem('usuarioLogado');
+        if (boasVindas) boasVindas.innerHTML = '';
+
         authDiv.innerHTML = `
           <a href="cadastro.html" class="login-button">Cadastro</a>
           <a href="login.html" class="login-button">Login</a>
         `;
       }
+
+      atualizarContadorCarrinho(); // Atualiza após sabermos se está logado
     });
+}
+
+function logout() {
+  fetch('/logout')
+    .then(() => {
+      localStorage.removeItem('usuarioLogado');
+      window.location.href = '/login.html';
+    })
+    .catch(err => console.error("Erro ao fazer logout:", err));
 }
 
 function configurarFormularioContato() {
@@ -75,6 +99,23 @@ function configurarRedirecionamentoLinkCardapio() {
       window.location.href = "cardapio.html";
     }, 800);
   });
+}
+
+function atualizarContadorCarrinho() {
+  const contador = document.getElementById("contador-carrinho");
+
+  let id = "anonimo";
+  const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+  if (usuario?.id) id = usuario.id;
+
+  const chave = `carrinho_${id}`;
+  const carrinho = JSON.parse(localStorage.getItem(chave)) || [];
+
+  const totalItens = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
+
+  if (contador) {
+    contador.innerText = totalItens;
+  }
 }
 
 // Executa tudo

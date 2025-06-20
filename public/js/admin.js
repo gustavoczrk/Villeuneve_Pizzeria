@@ -26,7 +26,7 @@ if (formProduto) {
       if (resposta.ok) {
         alert("Produto cadastrado com sucesso!");
         formProduto.reset();
-        carregarProdutos(); // atualiza listagem
+        carregarProdutos();
       } else {
         alert("Erro: " + texto);
       }
@@ -55,20 +55,18 @@ async function carregarProdutos() {
       return;
     }
 
-lista.innerHTML = produtos.map(pizza => `
-  <div class="produto-item">
-    <h3>${pizza.nome}</h3>
-    <p>${pizza.descricao}</p>
-    <p><strong>Preço:</strong> R$ ${Number(pizza.preco).toFixed(2)}</p>
-    ${pizza.imagem ? `<img src="${pizza.imagem}" alt="${pizza.nome}" width="150">` : ''}
-    <div style="margin-top: 10px;">
-      <button class="btn-excluir" data-id="${pizza.id}">Excluir</button>
-    </div>
-  </div>
-`).join("");
+    lista.innerHTML = produtos.map(pizza => `
+      <div class="produto-item">
+        <h3>${pizza.nome}</h3>
+        <p>${pizza.descricao}</p>
+        <p><strong>Preço:</strong> R$ ${Number(pizza.preco).toFixed(2)}</p>
+        ${pizza.imagem ? `<img src="${pizza.imagem}" alt="${pizza.nome}" width="150">` : ''}
+        <div style="margin-top: 10px;">
+          <button class="btn-excluir" data-id="${pizza.id}">Excluir</button>
+        </div>
+      </div>
+    `).join("");
 
-
-    // Ativa os botões de exclusão
     document.querySelectorAll(".btn-excluir").forEach(botao => {
       botao.addEventListener("click", async () => {
         const id = botao.dataset.id;
@@ -82,7 +80,7 @@ lista.innerHTML = produtos.map(pizza => `
 
             if (res.ok) {
               alert(texto);
-              carregarProdutos(); // atualiza lista
+              carregarProdutos();
             } else {
               alert("Erro: " + texto);
             }
@@ -130,7 +128,133 @@ async function carregarContatos() {
   }
 }
 
-carregarContatos();
+async function carregarPedidos() {
+  const container = document.getElementById("lista-pedidos");
+  if (!container) return;
 
-// Carrega lista ao abrir a página
+  container.innerHTML = "<p>Carregando pedidos...</p>";
+
+  try {
+    const res = await fetch("/admin/pedidos");
+    const pedidos = await res.json();
+
+    if (!Array.isArray(pedidos) || pedidos.length === 0) {
+      container.innerHTML = "<p>Nenhum pedido encontrado.</p>";
+      return;
+    }
+
+    // Agrupar pedidos por ID
+    const agrupados = {};
+    pedidos.forEach(p => {
+      if (!agrupados[p.id]) {
+        agrupados[p.id] = {
+          id: p.id,
+          nome: p.nome,
+          endereco: p.endereco,
+          telefone: p.telefone,
+          pagamento: p.pagamento,
+          data: p.data_pedido,
+          status: p.status || 'pendente',
+          itens: []
+        };
+      }
+
+      agrupados[p.id].itens.push({
+        nome: p.produto_nome,
+        quantidade: p.quantidade,
+        preco: p.preco
+      });
+    });
+
+    // Renderizar pedidos agrupados
+    container.innerHTML = Object.values(agrupados).map(pedido => {
+      const itensHtml = pedido.itens.map(item => `
+        <li>${item.nome} - ${item.quantidade}x - R$ ${(item.preco * item.quantidade).toFixed(2)}</li>
+      `).join("");
+
+      return `
+  <div class="contato-item">
+    <p><strong>Pedido #${pedido.id}</strong></p>
+    <p><strong>Cliente:</strong> ${pedido.nome}</p>
+    <p><strong>Endereço:</strong> ${pedido.endereco}</p>
+    <p><strong>Telefone:</strong> ${pedido.telefone}</p>
+    <p><strong>Pagamento:</strong> ${pedido.pagamento}</p>
+    <p><strong>Data:</strong> ${new Date(pedido.data).toLocaleString()}</p>
+    <label><strong>Status:</strong>
+      <select class="status-select" data-id="${pedido.id}">
+        ${['Recebido', 'Em Preparo', 'Saiu para Entrega', 'Finalizado'].map(s => `
+          <option value="${s}" ${s === pedido.status ? 'selected' : ''}>${s}</option>
+        `).join("")}
+      </select>
+    </label>
+    <p><strong>Itens:</strong></p>
+    <ul>${itensHtml}</ul>
+    ${pedido.status === 'Finalizado' ? `
+      <button class="btn-excluir-pedido" data-id="${pedido.id}">Excluir Pedido</button>
+    ` : ''}
+  </div>
+`;
+
+    }).join("");
+
+    document.querySelectorAll(".status-select").forEach(select => {
+  select.addEventListener("change", async () => {
+    const pedidoId = select.dataset.id;
+    const novoStatus = select.value;
+
+    try {
+      const res = await fetch(`/admin/pedidos/${pedidoId}/status`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: novoStatus })
+      });
+
+      const msg = await res.text();
+      alert(msg);
+      carregarPedidos();
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao atualizar status.");
+    }
+  });
+});
+
+document.querySelectorAll(".btn-excluir-pedido").forEach(botao => {
+  botao.addEventListener("click", async () => {
+    const id = botao.dataset.id;
+    if (confirm("Deseja excluir este pedido finalizado?")) {
+      try {
+        const res = await fetch(`/admin/pedidos/${id}`, {
+          method: "DELETE"
+        });
+        const msg = await res.text();
+        alert(msg);
+        carregarPedidos();
+      } catch (erro) {
+        console.error("Erro ao excluir pedido:", erro);
+        alert("Erro ao excluir pedido.");
+      }
+    }
+  });
+});
+
+
+  } catch (erro) {
+    console.error("Erro ao carregar pedidos:", erro);
+    container.innerHTML = "<p>Erro ao carregar pedidos.</p>";
+  }
+}
+
+// parte colapsavel 
+document.querySelectorAll(".toggle-btn").forEach(botao => {
+  botao.addEventListener("click", () => {
+    const conteudo = botao.nextElementSibling;
+    conteudo.classList.toggle("ativo");
+  });
+});
+
+
+// Executar carregamentos ao abrir a página
 carregarProdutos();
+carregarContatos();
+carregarPedidos();

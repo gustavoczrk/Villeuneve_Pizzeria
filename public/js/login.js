@@ -19,16 +19,22 @@ if (loginForm) {
         body: JSON.stringify({ usuario, senha }),
       });
 
-      const texto = await resposta.text();
+      const dados = await resposta.json();
 
       if (resposta.status === 200) {
         alert("Login realizado com sucesso!");
+
+        // 🔥 Limpa carrinho anônimo
+        localStorage.removeItem("carrinho_anonimo");
+
+        // (Opcional) Salva dados do usuário logado no localStorage
+        localStorage.setItem("usuarioLogado", JSON.stringify(dados.usuario));
 
         setTimeout(() => {
           window.location.href = "/";
         }, 800);
       } else {
-        alert("Erro: " + texto);
+        alert("Erro: " + (dados?.erro || "Falha no login."));
       }
     } catch (erro) {
       console.error("Erro ao realizar login:", erro);

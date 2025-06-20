@@ -17,7 +17,11 @@ async function carregarCardapio() {
         <h3>${pizza.nome}</h3>
         <p>${pizza.descricao}</p>
         <p><strong>R$ ${Number(pizza.preco).toFixed(2)}</strong></p>
-      </div>
+        <button class="btn-adicionar" onclick='adicionarAoCarrinho(${JSON.stringify(pizza)})'>
+  Adicionar ao Carrinho
+</button>
+
+      </div>  
     `).join("");
 
   } catch (erro) {
@@ -25,5 +29,37 @@ async function carregarCardapio() {
     container.innerHTML = "<p>Erro ao carregar cardápio.</p>";
   }
 }
+
+function adicionarAoCarrinho(pizza) {
+  const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+  const id = usuario?.id || "anonimo";
+  const chave = `carrinho_${id}`;
+
+  let carrinho = JSON.parse(localStorage.getItem(chave)) || [];
+
+  const index = carrinho.findIndex(item => item.id === pizza.id);
+  if (index !== -1) {
+    carrinho[index].quantidade += 1;
+  } else {
+    carrinho.push({ ...pizza, quantidade: 1 });
+  }
+
+  localStorage.setItem(chave, JSON.stringify(carrinho));
+  alert("Pizza adicionada ao carrinho!");
+}
+
+
+function atualizarContadorCarrinho() {
+  const contador = document.getElementById("contador-carrinho");
+  const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+
+  const totalItens = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
+
+  if (contador) {
+    contador.innerText = totalItens;
+  }
+}
+
+atualizarContadorCarrinho();
 
 carregarCardapio();

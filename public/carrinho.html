@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Carrinho - Villeuneve Pizzeria</title>
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/carrinho.css" />
+</head>
+<body>
+
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cardapio.html">Cardápio</a></li>
+        <li><a href="carrinho.html">Carrinho</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="background-container main-carrinho">
+    <div class="admin-container">
+      <section class="admin-section">
+        <h2>Seu Carrinho</h2>
+
+        <div id="lista-carrinho">Carregando...</div>
+
+        <h3 id="total">Total: R$ 0,00</h3>
+
+        <div style="margin-top: 20px;">
+          <a href="cardapio.html" class="login-button">⬅ Voltar ao Cardápio</a>
+          <button id="btn-finalizar" class="login-button">Finalizar Pedido</button>
+        </div>
+
+        <!-- Formulário escondido inicialmente -->
+        <div id="formulario-pedido" style="display: none; margin-top: 30px;">
+          <h3>Dados para entrega</h3>
+          <form id="form-pedido">
+            <input type="text" name="nome" placeholder="Seu nome completo" required><br><br>
+            <input type="text" name="endereco" placeholder="Endereço para entrega" required><br><br>
+            <input type="text" name="telefone" placeholder="Telefone de contato" required><br><br>
+            <select name="pagamento" required>
+              <option value="">Forma de Pagamento</option>
+              <option value="dinheiro">Dinheiro</option>
+              <option value="pix">Pix</option>
+              <option value="cartao">Cartão</option>
+            </select><br><br>
+            <button type="submit" class="login-button">Confirmar Pedido</button>
+          </form>
+          <p id="mensagem-pedido" style="margin-top: 10px;"></p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Carrinho flutuante -->
+  <a href="carrinho.html" class="carrinho-fixo" title="Ir para o carrinho">
+    🛒 <span id="contador-carrinho">0</span>
+  </a>
+
+  <footer>
+    <p>&copy; 2025 Villeuneve Pizzeria</p>
+  </footer>
+
+  <script src="js/carrinho.js"></script>
+</body>
+</html>

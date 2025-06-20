@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfil do Usuário - Villeneuve Pizzeria</title>
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="cardapio.html">Cardápio</a></li>
+      </ul>
+      <div class="auth-buttons">
+        <a href="/logout" class="login-button">Sair</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="background-container">
+    <div class="admin-container">
+      <section class="admin-hero">
+        <h1>Perfil do Usuário</h1>
+      </section>
+
+      <section class="admin-section">
+        <h2>Seus Dados</h2>
+        <div id="dados-usuario">
+          <p>Carregando dados...</p>
+        </div>
+
+        <form id="form-endereco" style="margin-top: 1.5rem;">
+          <label for="novo-endereco"><strong>Atualizar Endereço:</strong></label><br>
+          <input type="text" id="novo-endereco" name="novo-endereco" placeholder="Digite seu endereço completo" required style="width: 100%; padding: 0.5rem; margin-top: 0.5rem;">
+          <button type="submit" class="login-button" style="margin-top: 1rem;">Salvar Endereço</button>
+          <p id="msg-endereco" style="margin-top: 0.5rem; color: green;"></p>
+        </form>
+      </section>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Villeneuve Pizzeria</p>
+  </footer>
+
+  <script src="js/perfil.js"></script>
+</body>
+</html>

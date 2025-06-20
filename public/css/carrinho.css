@@ -1,0 +1,118 @@
+/* Container principal da lista de itens do carrinho */
+#lista-carrinho {
+  max-width: 700px;
+  margin: 2rem auto;
+}
+
+/* Estilo de cada item no carrinho */
+.produto-item {
+  background-color: #fefefe;
+  border: 1px solid #ddd;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Título do produto */
+.produto-item h4 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #222;
+}
+
+/* Botão de remover item */
+.produto-item button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.produto-item button:hover {
+  background-color: #c0392b;
+}
+
+/* Total do carrinho */
+#total {
+  text-align: right;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+/* Caixa do formulário de finalização */
+#formulario-pedido {
+  max-width: 700px;
+  margin: 3rem auto;
+  background-color: rgba(255, 255, 255, 0.96);
+  border-radius: 1rem;
+  box-shadow: 0 0 12px rgba(0,0,0,0.15);
+  padding: 2rem;
+}
+
+/* Campos do formulário */
+#formulario-pedido input,
+#formulario-pedido select {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+}
+
+/* Botão de enviar pedido */
+#formulario-pedido button {
+  background-color: #f39c12;
+  color: white;
+  font-weight: bold;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+#formulario-pedido button:hover {
+  background-color: #d68910;
+}
+
+/* Mensagem de erro ou sucesso */
+#mensagem-pedido {
+  margin-top: 1rem;
+  color: green;
+  font-weight: bold;
+  text-align: center;
+}
+
+section {
+  text-align: left;
+  padding: 0; /* zera o padding global */
+}
+
+.main-carrinho {
+  flex: 1;
+}
+
+#btn-finalizar {
+  display: inline-block;
+  background-color: #f39c12;
+  color: white;
+  font-weight: bold;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin: 1.5rem 0;
+}
+
+#btn-finalizar:hover {
+  background-color: #d68910;
+}
+
+

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pedido Confirmado - Villeuneve Pizzeria</title>
+  <link rel="stylesheet" href="css/index.css" />
+  <style>
+    .resumo-pedido {
+      background-color: rgba(255,255,255,0.95);
+      padding: 2rem;
+      border-radius: 1rem;
+      max-width: 600px;
+      margin: 2rem auto;
+      box-shadow: 0 0 12px rgba(0,0,0,0.2);
+    }
+    .resumo-pedido h2 {
+      margin-top: 0;
+    }
+    .resumo-pedido ul {
+      padding-left: 1rem;
+    }
+    .resumo-pedido li {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="background-container">
+    <div class="resumo-pedido">
+      <h1>✅ Pedido Confirmado!</h1>
+      <p id="mensagem-agradecimento"></p>
+      <h2>Resumo do Pedido:</h2>
+      <p><strong>Nome:</strong> <span id="resumo-nome"></span></p>
+      <p><strong>Pagamento:</strong> <span id="resumo-pagamento"></span></p>
+      <ul id="resumo-itens"></ul>
+      <p><strong>Total:</strong> <span id="resumo-total"></span></p>
+      <a href="index.html" class="login-button" style="margin-top: 1rem; display: inline-block;">Voltar para o início</a>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Villeuneve Pizzeria</p>
+  </footer>
+
+  <script>
+    const pedido = JSON.parse(localStorage.getItem('ultimoPedido'));
+    if (pedido) {
+      document.getElementById("resumo-nome").innerText = pedido.cliente.nome;
+      document.getElementById("resumo-pagamento").innerText = pedido.cliente.pagamento;
+      document.getElementById("mensagem-agradecimento").innerText = `Obrigado, ${pedido.cliente.nome}! Seu pedido foi recebido.`;
+
+      let total = 0;
+      const lista = pedido.itens.map(item => {
+        const subtotal = item.quantidade * Number(item.preco);
+        total += subtotal;
+        return `<li>${item.quantidade}x ${item.nome} – R$ ${subtotal.toFixed(2)}</li>`;
+      }).join("");
+
+      document.getElementById("resumo-itens").innerHTML = lista;
+      document.getElementById("resumo-total").innerText = `R$ ${total.toFixed(2)}`;
+
+      // limpa o último pedido depois de mostrar
+      localStorage.removeItem('ultimoPedido');
+    }
+  </script>
+</body>
+</html>
